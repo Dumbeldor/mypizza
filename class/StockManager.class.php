@@ -10,20 +10,17 @@ class UserManager
 	public function setDb(PDO $db){
 		$this->_db = $db;
 	}
-	//Ajouter un User dans la base de donnée
-	public function add(User $user)
+	//Ajouter un stock dans la base de donnée
+	public function add(Stock $stock)
 	{
-		$q = $this->_db->prepare('INSERT INTO user SET nom = :nom, prenom = :prenom, pseudo = :pseudo, pass = :pass, email = :email');
-		$q->binValue(':nom', $user->nom());
-		$q->binValue(':prenom', $user->prenom());
-		$q->binValue(':pseudo', $user->pseudo());
-		$q->binValue(':pass', $user->pass());
-		$q->binValue('email', $user->email());
+		$q = $this->_db->prepare('INSERT INTO stock SET idPizzeria = :idPizzeria, idProduit = :idProduit');
+		$q->binValue(':idPizzeria', $stock->idPizzeria());
+		$q->binValue(':idProduit', $stock->idProduit());
 	}
 	//Supprimer un user dans la BDD
-	public function delete(User $user)
+	public function delete(Stock $stock)
 	{
-		$this->_db->exec('DELETE FROM user WHERE id = '.$user->id());
+		$this->_db->exec('DELETE FROM stock WHERE id = '.$stock->id());
 	}
 	//Récupérer un user dans la BDD pour le stocker dans une nouvelle instance user
 	public function get($info)
