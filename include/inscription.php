@@ -13,11 +13,11 @@ if(isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['pseudo']) ||
 					{//Mot de passe de mini 6 caracteres
 						else if (isset($_POST['pseudo']))
 						{// Verification pseudo
-							if ($userManager->exists($_POST['pseudo']))
+							else if ($userManager->exists($_POST['pseudo']))
 							{//Vérification pseudo libre
-								if (isset($_POST['email']))
+								else if (isset($_POST['email']))
 								{//Vérification email
-									if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+									else if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 									{//validation Email
 										$user = new User(array(
 											'nom' => $_POST['nom'],
