@@ -2,5 +2,6 @@
 <head>
 </head>
 <body>
-	<?php 
+	<a href="connexion.php">Connexion !</a>
+	<a href="inscription.php">Inscription !</a>
 </body>

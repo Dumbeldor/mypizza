@@ -47,6 +47,19 @@ public function __construct(array $donnees)
 			$this->prenom = $prenom;
 		}
 	}
+	public function setPseudo($pseudo)
+	{
+		if(is_string($pseudo)) {
+			$this->pseudo = $pseudo;
+		}
+	}
+	public function setEmail($email)
+	{
+		if (filter_var($email, FILTER_VALIDATE_EMAIL))
+		{
+			$this->email = $email;
+		}
+	}
 	public function setPass($pass)
 	{
 		if(is_string($pass)){
@@ -64,6 +77,12 @@ public function __construct(array $donnees)
 	}
 	public function prenom(){
 		return $this->prenom;
+	}
+	public function pseudo(){
+		return $this->pseudo;
+	}
+	public function email(){
+		return $this->email;
 	}
 	public function pass(){
 		return $this->pass;
