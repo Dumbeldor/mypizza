@@ -64,7 +64,7 @@ Class Pizzeria {
 	}
 	public function setAdressePostal($adressePostal)
 	{
-		if(strlen($adressePostal) == 6){
+		if(strlen($adressePostal) == 5){
 			$this->adressePostal = $adressePostal;
 		}
 	}

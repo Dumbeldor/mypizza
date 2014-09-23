@@ -1,29 +1,30 @@
 <?php
+include "session.php";
 if(isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['pseudo']) || isset($_POST['pass1']) || isset($_POST['pass2']) || isset($_POST['email'])) //Véfication que le formulaire est pas vide !
 {
-	else if (isset($_POST['nom'])) 
+	if (isset($_POST['nom'])) 
 	{ //Vérification nom renseigné
-		else if (isset($_POST['prenom'])) 
+		if (isset($_POST['prenom'])) 
 		{ // Vérification prenom
-			else if (isset($_POST['pass1']) && isset($_POST['pass2'])) 
+			if (isset($_POST['pass1']) && isset($_POST['pass2'])) 
 			{ //Mdp renseigné
-				else if ($_POST['pass1'] == $_POST['pass1'])
+				if ($_POST['pass1'] == $_POST['pass1'])
 				{ //Meme mot de passe
-					else if (strlen($_POST['pass1']) == 6) 
+					if (strlen($_POST['pass1']) >= 6) 
 					{//Mot de passe de mini 6 caracteres
-						else if (isset($_POST['pseudo']))
+						if (isset($_POST['pseudo']))
 						{// Verification pseudo
-							else if ($userManager->exists($_POST['pseudo']))
+							if (!$userManager->exists($_POST['pseudo']))
 							{//Vérification pseudo libre
-								else if (isset($_POST['email']))
+								if (isset($_POST['email']))
 								{//Vérification email
-									else if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+									if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 									{//validation Email
 										$user = new User(array(
 											'nom' => $_POST['nom'],
 											'prenom' => $_POST['prenom'],
 											'pseudo' => $_POST['pseudo'],
-											'pass' => $_POST['pass1'],
+											'pass' => sha1($_POST['pass1']),
 											'email' => $_POST['email'],
 											));
 										$_SESSION['user'] = $user;
@@ -51,12 +52,12 @@ if(isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['pseudo']) ||
 					}
 					else
 					{ // Mot de passe inférieur a 6 caractere
-						$erreur = "Votre mot de passe doit faire au minimum 6 caracteres."
+						$erreur = "Votre mot de passe doit faire au minimum 6 caracteres.";
 					}
 				}
 				else
 				{ // Mot de passe non identique
-					$erreur = "Vos deux mots de passes doivent être identique."
+					$erreur = "Vos deux mots de passes doivent être identique.";
 				}		
 			} 
 			else 
@@ -77,4 +78,8 @@ if(isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['pseudo']) ||
 else 
 { //Formulaire vide
 	$erreur = "Remplissez le formulaire pour vous inscrire.";
+}
+if(isset($erreur))
+{
+	echo $erreur;
 }

@@ -5,7 +5,7 @@ class User {
 		  	  $prenom,
 		  	  $pseudo,
 		  	  $pass,
-		  	  $email,
+		  	  $email;
 
 public function __construct(array $donnees)
  {

@@ -13,13 +13,13 @@ class PizzeriaManager
 	public function add(Pizzeria $pizzeria)
 	{
 		$q = $this->_db->prepare('INSERT INTO pizzeria SET nomPizzeria = :nomPizzeria, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue');
-		$q->binValue(':nomPizzeria', $pizzeria->nomPizzeria());
-		$q->binValue(':pass', $pizzeria->pass());
-		$q->binValue(':telephone', $pizzeria->telephone());
-		$q->binValue(':email', $pizzeria->email());
-		$q->binValue(':ville', $pizzeria->ville());
-		$q->binValue(':adressePostal', $pizzeria->adressePostal());
-		$q->binValue(':rue', $pizzeria->rue());
+		$q->bindValue(':nomPizzeria', $pizzeria->nomPizzeria());
+		$q->bindValue(':pass', $pizzeria->pass());
+		$q->bindValue(':telephone', $pizzeria->telephone());
+		$q->bindValue(':email', $pizzeria->email());
+		$q->bindValue(':ville', $pizzeria->ville());
+		$q->bindValue(':adressePostal', $pizzeria->adressePostal());
+		$q->bindValue(':rue', $pizzeria->rue());
 	}
 	//supprimer une pizzeria dans la BDD
 	public function delete(Pizzeria $pizzeria)

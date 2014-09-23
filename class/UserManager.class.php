@@ -14,11 +14,13 @@ class UserManager
 	public function add(User $user)
 	{
 		$q = $this->_db->prepare('INSERT INTO user SET nom = :nom, prenom = :prenom, pseudo = :pseudo, pass = :pass, email = :email');
-		$q->binValue(':nom', $user->nom());
-		$q->binValue(':prenom', $user->prenom());
-		$q->binValue(':pseudo', $user->pseudo());
-		$q->binValue(':pass', $user->pass());
-		$q->binValue('email', $user->email());
+		$q->bindValue(':nom', $user->nom());
+		$q->bindValue(':prenom', $user->prenom());
+		$q->bindValue(':pseudo', $user->pseudo());
+		$q->bindValue(':pass', $user->pass());
+		$q->bindValue(':email', $user->email());
+
+		$q->execute();
 	}
 	//Supprimer un user dans la BDD
 	public function delete(User $user)

@@ -14,8 +14,8 @@ class StockManager
 	public function add(Stock $stock)
 	{
 		$q = $this->_db->prepare('INSERT INTO stock SET idPizzeria = :idPizzeria, idProduit = :idProduit');
-		$q->binValue(':idPizzeria', $stock->idPizzeria());
-		$q->binValue(':idProduit', $stock->idProduit());
+		$q->bindValue(':idPizzeria', $stock->idPizzeria());
+		$q->bindValue(':idProduit', $stock->idProduit());
 	}
 	//Supprimer un stock dans la BDD
 	public function delete(Stock $stock)
