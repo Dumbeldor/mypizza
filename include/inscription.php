@@ -1,4 +1,9 @@
 <?php
+function chargerClasses($classe)
+{
+  require '../class/' . $classe . '.class.php'; // On inclut la classe correspondante au paramètre passé.
+}
+spl_autoload_register('chargerClasses');
 include "session.php";
 if(isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['pseudo']) || isset($_POST['pass1']) || isset($_POST['pass2']) || isset($_POST['email'])) //Véfication que le formulaire est pas vide !
 {

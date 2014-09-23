@@ -46,7 +46,8 @@ class UserManager
 			}
 		}
 		else {
-			$q = $this->_db->query('SELECT id, nom, prenom, pseudo, pass, email FROM user WHERE pseudo = '.$info);
+			$q = $this->_db->prepare('SELECT id, nom, prenom, pseudo, pass, email FROM user WHERE pseudo = :pseudo');
+			$q->execute(array(':pseudo' => $info));
 			while($donnees = $q->fetch())
 			{
 				return new User(array(
@@ -59,6 +60,13 @@ class UserManager
 					));
 			}
 		}			
+	}
+	//Vérifier le mot de passe
+	public function pass($pseudo, $pass)
+	{
+		$q = $this->_db->prepare('SELECT COUNT(*) FROM user WHERE pseudo = :pseudo AND pass = :pass');
+		$q->execute(array(':pseudo' => $pseudo, ':pass' => $pass));
+		return (bool) $q->fetchColumn();
 	}
 	//Voir si le pseudo existe déjà
 	public function exists($info)
