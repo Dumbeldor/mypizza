@@ -12,8 +12,10 @@ class PizzeriaManager
 	//Ajouter pizzeria a la base de donnée
 	public function add(Pizzeria $pizzeria)
 	{
-		$q = $this->_db->prepare('INSERT INTO pizzeria SET nomPizzeria = :nomPizzeria, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue');
+		$q = $this->_db->prepare('INSERT INTO pizzeria SET nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue');
 		$q->bindValue(':nomPizzeria', $pizzeria->nomPizzeria());
+		$q->bindValue(':nomResponsable', $pizzeria->nomResponsable());
+		$q->bindValue(':prenomResponsable', $pizzeria->prenomResponsable());
 		$q->bindValue(':pass', $pizzeria->pass());
 		$q->bindValue(':telephone', $pizzeria->telephone());
 		$q->bindValue(':email', $pizzeria->email());
@@ -31,12 +33,14 @@ class PizzeriaManager
 	{
 		if(is_int($info)) // Si on recherche avec l'id de la pizzeria
 		{
-			$q = $this->_db->query('SELECT id, nomPizzeria, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = '.$info);
+			$q = $this->_db->query('SELECT id, nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = '.$info);
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
 					'id' => $donnees['id'],
 					'nomPizzeria' => $donnees['nomPizzeria'],
+					'nomResponsable' => $donnees['nomResponsable'],
+					'prenomResponsable' => $donnees['prenomResponsable'],
 					'pass' => $donnees['pass'],
 					'telephone' => $donnees['telephone'],
 					'email' => $donnees['email'],
@@ -47,12 +51,14 @@ class PizzeriaManager
 			}
 		}
 		else { //Si on recherche avec le nom de la pizzeria
-			$q = $this->_db->query('SELECT id, nomPizzeria, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE nomPizzeria = '.$info);
+			$q = $this->_db->query('SELECT id, nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE nomPizzeria = '.$info);
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
 					'id' => $donnees['id'],
 					'nomPizzeria' => $donnees['nomPizzeria'],
+					'nomResponsable' => $donnees['nomResponsable'],
+					'prenomResponsable' => $donnees['prenomResponsable'],
 					'pass' => $donnees['pass'],
 					'telephone' => $donnees['telephone'],
 					'email' => $donnees['email'],
@@ -80,9 +86,11 @@ class PizzeriaManager
 		$id = $pizzeria->id();
 		if(isset($id))
 		{
-			$q = $this->_db->prepare('UPDATE pizzeria SET nomPizzeria = :nomPizzeria, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE id = :id');
+			$q = $this->_db->prepare('UPDATE pizzeria SET nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE id = :id');
 			$q->bindValue('id', $user->id());
 			$q->binValue(':nomPizzeria', $pizzeria->nomPizzeria());
+			$q->binValue(':nomResponsable', $pizzeria->nomResponsable());
+			$q->binValue(':prenomResponsable', $pizzeria->prenomResponsable());
 			$q->binValue(':pass', $pizzeria->pass());
 			$q->binValue(':telephone', $pizzeria->telephone());
 			$q->binValue(':email', $pizzeria->email());
@@ -92,8 +100,10 @@ class PizzeriaManager
 			$q->execute();
 		}
 		else { //Si nous voulons updat avec un nom d'utilisateurs
-			$q = $this->_db->prepare('UPDATE pizzeria SET pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE nomPizzeria = :nomPizzeria');
+			$q = $this->_db->prepare('UPDATE pizzeria SET nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE nomPizzeria = :nomPizzeria');
 			$q->binValue(':nomPizzeria', $pizzeria->nomPizzeria());
+			$q->binValue(':nomResponsable', $pizzeria->nomResponsable());
+			$q->binValue(':prenomResponsable', $pizzeria->prenomResponsable());
 			$q->binValue(':pass', $pizzeria->pass());
 			$q->binValue(':telephone', $pizzeria->telephone());
 			$q->binValue(':email', $pizzeria->email());

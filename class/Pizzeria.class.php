@@ -2,6 +2,8 @@
 Class Pizzeria {
 	protected $id,
 			  $nomPizzeria,
+			  $nomResponsable,
+			  $prenomResponsable,
 			  $pass,
 			  $telephone,
 			  $email,
@@ -38,6 +40,20 @@ Class Pizzeria {
 		if(is_string($nomPizzeria))
 		{
 			$this->nomPizzeria = $nomPizzeria;
+		}
+	}
+	public function setNomResponsable($nomResponsable)
+	{
+		if(is_string($nomResponsable))
+		{
+			$this->nomResponsable = $nomResponsable;
+		}
+	}
+	public function setPrenomResponsable($prenomResponsable)
+	{
+		if(is_string($prenomResponsable))
+		{
+			$this->prenomResponsable = $prenomResponsable;
 		}
 	}
 	public function setPass($pass)
@@ -80,6 +96,12 @@ Class Pizzeria {
 	}
 	public function nomPizzeria(){
 		return $this->nomPizzeria;
+	}
+	public function nomResponsable(){
+		return $this->nomResponsable;
+	}
+	public function prenomResponsable(){
+		return $this->prenomResponsable;
 	}
 	public function pass(){
 		return $this->pass;
