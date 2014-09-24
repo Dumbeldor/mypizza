@@ -22,6 +22,7 @@ class PizzeriaManager
 		$q->bindValue(':ville', $pizzeria->ville());
 		$q->bindValue(':adressePostal', $pizzeria->adressePostal());
 		$q->bindValue(':rue', $pizzeria->rue());
+		$q->execute();
 	}
 	//supprimer une pizzeria dans la BDD
 	public function delete(Pizzeria $pizzeria)

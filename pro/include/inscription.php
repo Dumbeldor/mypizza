@@ -17,10 +17,10 @@ if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POS
 				{ //Meme mot de passe
 					if (strlen($_POST['pass1']) >= 6) 
 					{//Mot de passe de mini 6 caracteres
-						if (isset($_POST['pseudo']))
-						{// Verification pseudo
-							if (!$userManager->exists($_POST['pseudo']))
-							{//Vérification pseudo libre
+						if (isset($_POST['nomPizzeria']))
+						{// Verification nom pizzeria
+							if (!$pizzeriaManager->exists($_POST['nomPizzeria']))
+							{//Vérification bom pizzeria libre
 								if (isset($_POST['email']))
 								{//Vérification email
 									if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
@@ -36,8 +36,9 @@ if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POS
 											'adressePostal' => $_POST['adressePostal'],
 											'rue' => $_POST['rue'],
 											));
-										$_SESSION['user'] = $user;
-										$userManager->add($user);
+										$_SESSION['pizzeria'] = $pizzeria;
+										$pizzeriaManager->add($pizzeria);
+										var_dump($pizzeria);
 									}
 									else
 									{ //Email non valide
@@ -51,12 +52,12 @@ if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POS
 							}
 							else
 							{ // Pseudo déjà utilisé
-								$erreur = "Le pseudo est déjà utilisé";
+								$erreur = "Le nom de la pizzeria est déjà utilisé";
 							}
 						}
 						else
-						{//Pseudo vide
-							$erreur = "Vous devez remplir le champ pseudo.";
+						{//nom pizzeria vide
+							$erreur = "Vous devez remplir le champ nom pizzeria.";
 						}							
 					}
 					else

@@ -1,7 +1,7 @@
 <?php
 function chargerClasse($classe)
 {
-  require 'class/' . $classe . '.class.php'; // On inclut la classe correspondante au paramètre passé.
+  require '../class/' . $classe . '.class.php'; // On inclut la classe correspondante au paramètre passé.
 }
 
 spl_autoload_register('chargerClasse'); // On enregistre la fonction en autoload pour qu'elle soit appelée dès qu'on instanciera une classe non déclarée.
@@ -13,21 +13,21 @@ catch(Exception $e)
 {
         die('Erreur : '.$e->getMessage());
 }
-$userManager = new UserManager($db);
+$pizzeriaManager = new PizzeriaManager($db);
 
 session_start();
 
-if (isset($_SESSION['user'])) // Si la session user existe, on restaure l'objet.
+if (isset($_SESSION['pizzeria'])) // Si la session user existe, on restaure l'objet.
 {
-  $user = $_SESSION['user'];
+  $pizzeria = $_SESSION['pizzeria'];
 }
-else if (isset($perso)) // Si on a créé un user, on le stocke dans une variable session afin d'économiser une requête SQL.
+else if (isset($pizzeria)) // Si on a créé un user, on le stocke dans une variable session afin d'économiser une requête SQL.
 {
-  $_SESSION['user'] = $user;
+  $_SESSION['pizzeria'] = $pizzeria;
 }
 if (isset($_GET['deconnexion']))
 {
-	$userManager->update($user);
+	$pizzeriaManager->update($pizzeria);
   session_destroy();
   header('Location: .');
   exit();

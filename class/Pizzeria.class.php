@@ -31,10 +31,13 @@ Class Pizzeria {
       			$this->$method($value);
     		}
   		}
+  	}
   		//Fonction qui sert à Modifier nos variables de class
-  		function setId($id){
-  			$this->id = $id;
-  		}
+  	public function setId($id)
+	{
+		$id = (int) $id;
+		$this->id = $id;
+	}
   	public function setNomPizzeria($nomPizzeria)
 	{
 		if(is_string($nomPizzeria))
@@ -64,7 +67,8 @@ Class Pizzeria {
 	}
 	public function setTelephone($telephone)
 	{
-		if(is_string($telephone)){
+		$telephone = (int) $telephone;
+		if(!is_string($telephone)){
 			$this->telephone = $telephone;
 		}
 	}
@@ -80,9 +84,9 @@ Class Pizzeria {
 	}
 	public function setAdressePostal($adressePostal)
 	{
-		if(strlen($adressePostal) == 5){
-			$this->adressePostal = $adressePostal;
-		}
+		$adressePostal = (int) $adressePostal;
+		$this->adressePostal = $adressePostal;
+		
 	}
 	public function setRue($rue)
 	{
