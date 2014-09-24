@@ -34,7 +34,8 @@ class PizzeriaManager
 	{
 		if(is_int($info)) // Si on recherche avec l'id de la pizzeria
 		{
-			$q = $this->_db->query('SELECT id, nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = '.$info);
+			$q = $this->_db->prepare('SELECT id, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = :id');
+			$q->execute(array(':id' => $info));
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
@@ -52,7 +53,8 @@ class PizzeriaManager
 			}
 		}
 		else { //Si on recherche avec le nom de la pizzeria
-			$q = $this->_db->query('SELECT id, nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE nomPizzeria = '.$info);
+			$q = $this->_db->prepare('SELECT id, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE nomPizzeria = :nomPizzeria');
+			$q->execute(array(':nomPizzeria' => $info));
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
@@ -69,6 +71,13 @@ class PizzeriaManager
 					));
 			}
 		}			
+	}
+	//Vérifier le mot de passe
+	public function pass($nomPizzeria, $pass)
+	{
+		$q = $this->_db->prepare('SELECT COUNT(*) FROM pizzeria WHERE nomPizzeria = :nomPizzeria AND pass = :pass');
+		$q->execute(array(':nomPizzeria' => $nomPizzeria, ':pass' => $pass));
+		return (bool) $q->fetchColumn();
 	}
 	//Vérifier si le nom de la pizzeria existe
 	public function exists($info)
