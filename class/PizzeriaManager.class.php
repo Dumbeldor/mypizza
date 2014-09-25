@@ -12,7 +12,8 @@ class PizzeriaManager
 	//Ajouter pizzeria a la base de donnée
 	public function add(Pizzeria $pizzeria)
 	{
-		$q = $this->_db->prepare('INSERT INTO pizzeria SET nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue');
+		$q = $this->_db->prepare('INSERT INTO pizzeria SET siret = :siret, nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue');
+		$q->bindValue(':siret', $pizzeria->siret());
 		$q->bindValue(':nomPizzeria', $pizzeria->nomPizzeria());
 		$q->bindValue(':nomResponsable', $pizzeria->nomResponsable());
 		$q->bindValue(':prenomResponsable', $pizzeria->prenomResponsable());
@@ -34,12 +35,13 @@ class PizzeriaManager
 	{
 		if(is_int($info)) // Si on recherche avec l'id de la pizzeria
 		{
-			$q = $this->_db->prepare('SELECT id, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = :id');
+			$q = $this->_db->prepare('SELECT id, siret, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE id = :id');
 			$q->execute(array(':id' => $info));
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
 					'id' => $donnees['id'],
+					'siret' => $donnees['siret'],
 					'nomPizzeria' => $donnees['nomPizzeria'],
 					'nomResponsable' => $donnees['nomResponsable'],
 					'prenomResponsable' => $donnees['prenomResponsable'],
@@ -53,12 +55,13 @@ class PizzeriaManager
 			}
 		}
 		else { //Si on recherche avec le nom de la pizzeria
-			$q = $this->_db->prepare('SELECT id, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE nomPizzeria = :nomPizzeria');
-			$q->execute(array(':nomPizzeria' => $info));
+			$q = $this->_db->prepare('SELECT id, siret, nomPizzeria, nomResponsable, prenomResponsable, pass, telephone, email, ville, adressePostal, rue FROM pizzeria WHERE siret = :siret');
+			$q->execute(array(':siret' => $info));
 			while($donnees = $q->fetch())
 			{
 				return new Pizzeria(array(
 					'id' => $donnees['id'],
+					'siret' => $donnees['siret'],
 					'nomPizzeria' => $donnees['nomPizzeria'],
 					'nomResponsable' => $donnees['nomResponsable'],
 					'prenomResponsable' => $donnees['prenomResponsable'],
@@ -73,21 +76,21 @@ class PizzeriaManager
 		}			
 	}
 	//Vérifier le mot de passe
-	public function pass($nomPizzeria, $pass)
+	public function pass($siret, $pass)
 	{
-		$q = $this->_db->prepare('SELECT COUNT(*) FROM pizzeria WHERE nomPizzeria = :nomPizzeria AND pass = :pass');
-		$q->execute(array(':nomPizzeria' => $nomPizzeria, ':pass' => $pass));
+		$q = $this->_db->prepare('SELECT COUNT(*) FROM pizzeria WHERE siret = :siret AND pass = :pass');
+		$q->execute(array(':siret' => $siret, ':pass' => $pass));
 		return (bool) $q->fetchColumn();
 	}
-	//Vérifier si le nom de la pizzeria existe
+	//Vérifier si le siret de la pizzeria existe
 	public function exists($info)
 	{
 		//Vérification avec ID
 		if(is_int($info)){
 			return (bool) $this->_db->query('SELECT COUNT(*) FROM pizzeria WHERE id = '.$info)->fetchColumn();
 		}
-		$q = $this->_db->prepare('SELECT COUNT(*) FROM pizzeria WHERE nomPizzeria = :nomPizzeria');
-		$q->execute(array(':nomPizzeria' => $info));
+		$q = $this->_db->prepare('SELECT COUNT(*) FROM pizzeria WHERE siret = :siret');
+		$q->execute(array(':siret' => $info));
 		return (bool) $q->fetchColumn();
 	}
 	//mettre à jours
@@ -96,8 +99,9 @@ class PizzeriaManager
 		$id = $pizzeria->id();
 		if(isset($id))
 		{
-			$q = $this->_db->prepare('UPDATE pizzeria SET nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE id = :id');
-			$q->bindValue('id', $user->id());
+			$q = $this->_db->prepare('UPDATE pizzeria SET siret = :siret, nomPizzeria = :nomPizzeria, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE id = :id');
+			$q->binValue(':id', $pizzeria->id());
+			$q->binValue(':siret', $pizzeria->siret());
 			$q->binValue(':nomPizzeria', $pizzeria->nomPizzeria());
 			$q->binValue(':nomResponsable', $pizzeria->nomResponsable());
 			$q->binValue(':prenomResponsable', $pizzeria->prenomResponsable());
@@ -110,8 +114,9 @@ class PizzeriaManager
 			$q->execute();
 		}
 		else { //Si nous voulons updat avec un nom d'utilisateurs
-			$q = $this->_db->prepare('UPDATE pizzeria SET nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE nomPizzeria = :nomPizzeria');
+			$q = $this->_db->prepare('UPDATE pizzeria SET siret = :siret, nomResponsable = :nomResponsable, prenomResponsable = :prenomResponsable, pass = :pass, telephone = :telephone, email = :email, ville = :ville, adressePostal = :adressePostal, rue = :rue WHERE nomPizzeria = :nomPizzeria');
 			$q->binValue(':nomPizzeria', $pizzeria->nomPizzeria());
+			$q->binValue(':siret', $pizeria->siret());
 			$q->binValue(':nomResponsable', $pizzeria->nomResponsable());
 			$q->binValue(':prenomResponsable', $pizzeria->prenomResponsable());
 			$q->binValue(':pass', $pizzeria->pass());

@@ -5,7 +5,7 @@ function chargerClasses($classe)
 }
 spl_autoload_register('chargerClasses');
 include "session.php";
-if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POST['prenomResponsable']) || isset($_POST['ville']) || isset($_POST['adressePostal']) || isset($_POST['rue']) || isset($_POST['pass1']) || isset($_POST['pass2']) || isset($_POST['email'])) //Véfication que le formulaire est pas vide !
+if(isset($_POST['siret']) || isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POST['prenomResponsable']) || isset($_POST['ville']) || isset($_POST['adressePostal']) || isset($_POST['rue']) || isset($_POST['pass1']) || isset($_POST['pass2']) || isset($_POST['email'])) //Véfication que le formulaire est pas vide !
 {
 	if (isset($_POST['nomPizzeria'])) 
 	{ //Vérification nom de pizzeria renseigné
@@ -19,13 +19,16 @@ if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POS
 					{//Mot de passe de mini 6 caracteres
 						if (isset($_POST['nomPizzeria']))
 						{// Verification nom pizzeria
-							if (!$pizzeriaManager->exists($_POST['nomPizzeria']))
-							{//Vérification bom pizzeria libre
+							if (isset($_POST['siret']))
+							{
+							if (!$pizzeriaManager->exists($_POST['siret']))
+							{//Vérification siret libre
 								if (isset($_POST['email']))
 								{//Vérification email
 									if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 									{//validation Email
 										$pizzeria = new Pizzeria(array(
+											'siret' => $_POST['siret'],
 											'nomPizzeria' => $_POST['nomPizzeria'],
 											'nomResponsable' => $_POST['nomResponsable'],
 											'prenomResponsable' => $_POST['prenomResponsable'],
@@ -51,8 +54,13 @@ if(isset($_POST['nomPizzera']) || isset($_POST['nomResponsable']) || isset($_POS
 								}
 							}
 							else
-							{ // Pseudo déjà utilisé
-								$erreur = "Le nom de la pizzeria est déjà utilisé";
+							{ // siret déjà utilisé
+								$erreur = "Le siret de la pizzeria est déjà utilisé";
+							}
+						}
+							else
+							{
+								$erreur = "Le siret doit être remplis";
 							}
 						}
 						else

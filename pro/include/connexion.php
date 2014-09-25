@@ -7,19 +7,20 @@ function chargerClasses($classe)
 spl_autoload_register('chargerClasses'); // On enregistre la fonction en autoload pour qu'elle soit appelée dès qu'on instanciera une classe non déclarée.
 include "session.php";
 
-if (isset($_POST['nomPizzeria']) || isset($_POST['pass']))
+if (isset($_POST['siret']) || isset($_POST['pass']))
 {//Si le formulaire est remplis
-	if (isset($_POST['nomPizzeria']))
+	if (isset($_POST['siret']))
 	{ //Le nom de la pizzeria est remplis
 		if (isset($_POST['pass']))
 		{ //Le pass est remplis
-			if($pizzeriaManager->exists($_POST['nomPizzeria']))
+			if($pizzeriaManager->exists($_POST['siret']))
 			{//vérification si le nom de la pizzeria exist
-				if($pizzeriaManager->pass($_POST['nomPizzeria'], sha1($_POST['pass'])))
+				if($pizzeriaManager->pass($_POST['siret'], sha1($_POST['pass'])))
 				{//vérification si le pass correspond
-					$pizzeria = $pizzeriaManager->get($_POST['nomPizzeria']);
+					$pizzeria = $pizzeriaManager->get($_POST['siret']);
 					$_SESSION['pizzeria'] = $pizzeria;
-					echo "Bienvenue "; echo $pizzeria->nomResponsable();
+					header('Location: ../index.php');    
+					echo "Bienvenue "; echo $pizzeria->siret();
 				}
 				else
 				{ // Le pass est incorrect
@@ -27,8 +28,8 @@ if (isset($_POST['nomPizzeria']) || isset($_POST['pass']))
 				}
 			}
 			else
-			{//Le nom de la pizzera n'existe pas
-				$erreur = "Le nom de votre pizzeria est incorrect";
+			{//siret n'existe pas
+				$erreur = "Le siret de votre pizzeria est incorrect";
 			}
 		}
 		else
@@ -38,7 +39,7 @@ if (isset($_POST['nomPizzeria']) || isset($_POST['pass']))
 	}
 	else
 	{//Le champ nom pizzeria est vide
-		$erreur = "Le champ nom pizzeria doit être remplis";
+		$erreur = "Le champ siret de votre pizzeria doit être remplis";
 	}
 }
 else

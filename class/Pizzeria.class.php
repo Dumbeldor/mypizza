@@ -1,6 +1,7 @@
 <?php
 Class Pizzeria {
 	protected $id,
+			  $siret,
 			  $nomPizzeria,
 			  $nomResponsable,
 			  $prenomResponsable,
@@ -37,6 +38,10 @@ Class Pizzeria {
 	{
 		$id = (int) $id;
 		$this->id = $id;
+	}
+	public function setSiret($siret)
+	{
+		$this->siret = $siret;
 	}
   	public function setNomPizzeria($nomPizzeria)
 	{
@@ -97,6 +102,9 @@ Class Pizzeria {
 
 	public function id(){
 		return $this->id;
+	}
+	public function siret(){
+		return $this->siret;
 	}
 	public function nomPizzeria(){
 		return $this->nomPizzeria;
