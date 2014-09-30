@@ -1,8 +1,8 @@
 <?php
 class Ingredient {
-	protected $id,
-			  $idPizzeria,
-			  $nomIngredient,
+	protected $id = array(),
+			  $idPizzeria = array(),
+			  $nomIngredient = array(),
 			  
 	public function __construct(array $donnees)
  {
@@ -26,26 +26,44 @@ class Ingredient {
   		}
   		//Fonction qui sert à Modifier nos variables de class
   	public function setId($id){
-  		$this->id = $id;
+  		$id = (int) $id;
+		if ($id >= 0)
+		{
+			array_push($this->id, $id);
+		}
   	}
 	public function setIdPizzeria($id){
-		$this->idPizzeria = $id;
+		$id = (int) $id;
+		if ($id >= 0)
+		{
+			array_push($this->idPizzeria, $id);
+		}
 	}
 	public function setNomIngredient($nom) {
-		if(is_string($nom)){
-			$this->nomIngredient = $nom;
+		if(is_string($nom))
+		{
+			array_push($this->nomIngredient, $nom);
 		}
 	}
 	
 	//function qui sert à récupérer les variables
 	public function id(){
-		return $this->id;
+		for ($numero = 0; $numero < count($this->id); $numero++)
+  		{
+  			return $this->id[$numero]; 	
+  		}
 	}
 	public function idPizzeria(){
-		return $this->idPizzeria;
+		for ($numero = 0; $numero < count($this->id); $numero++)
+  		{
+  			return $this->idPizzeria[$numero]; 	
+  		}
 	}
 	public function nomIngredient(){
-		return $this->nomIngredient;
+		for ($numero = 0; $numero < count($this->id); $numero++)
+  		{
+  			return $this->nomIngredient[$numero]; 	
+  		}
 	}
 			  
 }

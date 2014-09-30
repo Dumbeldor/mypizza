@@ -13,7 +13,7 @@ class IngredientManager
 	//Ajouter un stock dans la base de donnée
 	public function add(Ingredient $ingredient)
 	{
-		$q = $this->_db->prepare('INSERT INTO ingredient SET idPizzeria = :idPizzeria, nomProduit = :nomIngredient');
+		$q = $this->_db->prepare('INSERT INTO ingredient SET idPizzeria = :idPizzeria, nomIngredient = :nomIngredient');
 		$q->binValue(':idPizzeria', $ingredient->idPizzeria());
 		$q->binValue(':nomIngredient', $ingredient->nomIngredient());
 	}
@@ -32,25 +32,23 @@ class IngredientManager
 	{
 		if(is_int($info))
 		{
-			$q = $this->_db->query('SELECT id, idPizzeria, nomProduit FROM ingredient WHERE id = '.$info);
+			$ingredient = new Ingredient();
+			$q = $this->_db->query('SELECT id, idPizzeria, nomIngredient FROM ingredient WHERE id = '.$info);
 			while($donnees = $q->fetch())
 			{
-				return new Ingredient(array(
-					'id' => $donnees['id'],
-					'idPizzeria' => $donnees['idPizzeria'],
-					'nomProduit' => $donnees['nomProduit'],
-					));
+				$ingredient->setId($donnees['id']);
+				$ingredient->setIdPizzeria($donnees['idPizzeria']);
+				$ingredient->setNomIngredient($donnees['nomIngredient']);
 			}
 		}
 		else {
-			$q = $this->_db->query('SELECT id, idPizzeria, nomProduit FROM ingredient WHERE nomProduit = '.$info);
+			$ingredient = new Ingredient();
+			$q = $this->_db->query('SELECT id, idPizzeria, nomIngredient FROM ingredient WHERE nomIngredient = '.$info);
 			while($donnees = $q->fetch())
 			{
-				return new Ingredient(array(
-					'id' => $donnees['id'],
-					'idPizzeria' => $donnees['idPizzeria'],
-					'nomProduit' => $donnees['nomProduit'],
-					));
+				$ingredient->setId($donnees['id']);
+				$ingredient->setIdPizzeria($donnees['idPizzeria']);
+				$ingredient->setNomIngredient($donnees['nomIngredient']);
 			}
 		}			
 	}
@@ -61,8 +59,8 @@ class IngredientManager
 		if(is_int($info)){
 			return (bool) $this->_db->query('SELECT COUNT(*) FROM ingredient WHERE id = '.$info)->fetchColumn();
 		}
-		$q = $this->_db->prepare('SELECT COUNT(*) FROM ingredient WHERE nomProduit = :nomProduit');
-		$q->execute(array(':nomProduit' => $info));
+		$q = $this->_db->prepare('SELECT COUNT(*) FROM ingredient WHERE nomIngredient = :nomIngredient');
+		$q->execute(array(':nomIngredient' => $info));
 		return (bool) $q->fetchColumn();
 	}
 	//mettre à jours
@@ -73,16 +71,16 @@ class IngredientManager
 		{
 			if (is_int($id))
 			{
-				$q = $this->_db->prepare('UPDATE ingredient SET idPizzeria = :idPizzeria, nomProduit = :nomProduit WHERE id = :id');
+				$q = $this->_db->prepare('UPDATE ingredient SET idPizzeria = :idPizzeria, nomIngredient = :nomIngredient WHERE id = :id');
 				$q->bindValue('id', $ingredient->id());
 				$q->bindValue('idPizzeria', $ingredient->idPizzeria());
-				$q->bindValue('nomProduit', $ingredient->nomProduit());
+				$q->bindValue('nomIngredient', $ingredient->nomIngredient());
 				$q->execute();
 			} else {
-				$q = $this->_db->prepare('UPDATE ingredient SET idPizzeria = :idPizzeria WHERE nomProduit = :nomProduit');
+				$q = $this->_db->prepare('UPDATE ingredient SET idPizzeria = :idPizzeria WHERE nomIngredient = :nomIngredient');
 				$q->bindValue('id', $ingredient->id());
 				$q->bindValue('idPizzeria', $ingredient->idPizzeria());
-				$q->bindValue('nomProduit', $ingredient->nomProduit());
+				$q->bindValue('nomIngredient', $ingredient->nomIngredient());
 				$q->execute();
 			}
 		}
