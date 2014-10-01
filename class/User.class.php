@@ -1,16 +1,20 @@
-<?php 
+			<?php 
 class User {
 	protected $id,
 		  	  $nom,
 		  	  $prenom,
 		  	  $pseudo,
 		  	  $pass,
-		  	  $email;
+		  	  $email,
+		  	  $adresse,
+		  	  $codePostal,
+		  	  $ville,
+		  	  $numDetel;
 
 public function __construct(array $donnees)
- {
-    $this->hydrate($donnees);
-  }
+	{
+	$this->hydrate($donnees);
+	}
 
   	  // Un tableau de données doit être passé à la fonction (d'où le préfixe « array »).
 	public function hydrate(array $donnees)
@@ -29,11 +33,13 @@ public function __construct(array $donnees)
   		}
 	}
 	//Fonction qui sert à Modifier nos variables de class
+	// modification d'id
 	public function setId($id)
 	{
 		$id = (int) $id;
 		$this->id = $id;
 	}
+	// modification du nom
 	public function setNom($nom)
 	{
 		if(is_string($nom))
@@ -41,18 +47,21 @@ public function __construct(array $donnees)
 			$this->nom = $nom;
 		}
 	}
+	// modification du prenom
 	public function setPrenom($prenom)
 	{
 		if(is_string($prenom)){
 			$this->prenom = $prenom;
 		}
 	}
+	// modification du pseudo
 	public function setPseudo($pseudo)
 	{
 		if(is_string($pseudo)) {
 			$this->pseudo = $pseudo;
 		}
 	}
+	//modification du mail
 	public function setEmail($email)
 	{
 		if (filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -60,12 +69,42 @@ public function __construct(array $donnees)
 			$this->email = $email;
 		}
 	}
+	// modification du mot de passe
 	public function setPass($pass)
 	{
 		if(is_string($pass)){
 			$this->pass = $pass;
 		}
 	}
+	// modification de l'adresse
+	public function setAdresse($adresse)
+	{
+		if(is_string($adresse)){
+			$this->adresse = $adresse;
+		}
+	}
+	// modification du code postal
+	public function setCodePostal($codePostal)
+	{
+		if(is_string($codePostal)){
+			$this->codePostal = $codePostal;
+		}
+	}
+	//modification de la ville
+	public function setVille($ville)
+	{
+		if(is_string($ville)){
+			$this->ville = $ville;
+		}
+	}
+	// modification du numéro de téléphone
+	public function setNumDeTel($numDetel)
+	{
+		if(is_string($numDetel)){
+			$this->numDetel = $numDetel;
+		}
+	}
+
 
 	//Fonction qui sert à récupérer nos variable de class
 
@@ -87,6 +126,19 @@ public function __construct(array $donnees)
 	public function pass(){
 		return $this->pass;
 	}
+	public function adresse(){
+		return $this->adresse;
+	}
 
-		 
+	public function codePostal(){
+		return $this->codePostal;
+	}
+
+	public function ville(){
+		return $this->ville;
+	}
+	
+	public function numDetel(){
+		return $this->numDetel;
+	}
 }
